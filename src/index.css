@@ -1,2 +1,11 @@
 @import "bootstrap/dist/css/bootstrap.css";
 @import url('https://fonts.googleapis.com/css2?family=Knewave&display=swap');
+
+h1 {
+    font-family: 'Knewave', cursive;
+    background: linear-gradient(to right top, #fcba21, #fca817, #fb9613, #f98314, #f66f19, #f75634, #f23e49, #e8265c, #cd247f, #a23799, #6946a5, #024da1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
