@@ -1,4 +1,3 @@
-import React, {useState} from "react";
 import CharacterGrid from "../components/characters/CharacterGrid";
 import CharacterModal from "../components/characters/CharacterModal";
 import Pagination from "../components/characters/Pagination";
@@ -7,6 +6,7 @@ import LoadingSpinner from "../components/common/LoadingSpinner.tsx";
 import ErrorMessage from "../components/common/ErrorMessage.tsx";
 import EmptyMessage from "../components/common/EmptyMessage.tsx";
 import {useCharacters} from "../components/hooks/useCharacters.ts";
+import {useState} from "react";
 
 function Characters() {
     const [page, setPage] = useState(1);
