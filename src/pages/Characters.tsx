@@ -189,7 +189,7 @@ function Characters() {
                         color: "#FFAC33",
                     }}
                 >
-                    CHARACTERS
+                    NARUTOPEDIA
                 </h1>
 
                 <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
@@ -381,7 +381,7 @@ function Characters() {
                                             selectedCharacter.debut.anime !== "N/A" ||
                                             selectedCharacter.personalDetails.clan !== "N/A" ||
                                             selectedCharacter.personalDetails.status !== "N/A" ? (
-                                                <div className="col-md-6">
+                                                <div className="col-md-6 p-0 m-0 pt-1">
                                                     <h5>Biography</h5>
                                                     {selectedCharacter.debut.manga !== "N/A" && (
                                                         <p className="p-0 m-0">
@@ -413,7 +413,7 @@ function Characters() {
 
                                             {selectedCharacter.family.father !== "N/A" ||
                                             selectedCharacter.family.mother !== "N/A" ? (
-                                                <div className="col-md-6">
+                                                <div className="col-md-6 p-0 m-0 pt-1">
                                                     <h5>Family</h5>
                                                     {selectedCharacter.family.father !== "N/A" && (
                                                         <p className="p-0 m-0">
@@ -430,7 +430,7 @@ function Characters() {
                                                 </div>
                                             ) : null}
                                         </div>
-                                        <div className="col-12">
+                                        <div className="col-12 p-0 m-0 pt-1">
                                             {selectedCharacter.voiceActors && (
                                                 <div>
                                                     <h5>Voice Actor</h5>
