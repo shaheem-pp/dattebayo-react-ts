@@ -1,5 +1,5 @@
 import axios from "axios";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 interface Character {
     id: number;
@@ -41,7 +41,9 @@ function Characters() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [modalVisible, setModalVisible] = useState(false);
-    const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
+    const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
+        null
+    );
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -51,15 +53,23 @@ function Characters() {
             setError(null);
 
             try {
-                const response = await axios.get(`https://dattebayo-api.onrender.com/characters?page=${page}&limit=10`, {
-                    signal: abortController.signal
-                });
+                const response = await axios.get(
+                    `https://dattebayo-api.onrender.com/characters?page=${page}&limit=10`,
+                    {
+                        signal: abortController.signal,
+                    }
+                );
 
-                if (!response.data || typeof response.data !== 'object') {
+                if (!response.data || typeof response.data !== "object") {
                     throw new Error("Invalid API response structure");
                 }
 
-                const {characters: rawCharacters, currentPage, pageSize, total} = response.data;
+                const {
+                    characters: rawCharacters,
+                    currentPage,
+                    pageSize,
+                    total,
+                } = response.data;
 
                 if (!Array.isArray(rawCharacters)) {
                     throw new Error("Invalid characters data format");
@@ -71,11 +81,11 @@ function Characters() {
                     images: char.images || [],
                     debut: {
                         manga: char.debut?.manga || "N/A",
-                        anime: char.debut?.anime || "N/A"
+                        anime: char.debut?.anime || "N/A",
                     },
                     family: {
                         father: char.family?.father || "N/A",
-                        mother: char.family?.mother || "N/A"
+                        mother: char.family?.mother || "N/A",
                     },
                     jutsu: char.jutsu || [],
                     natureType: char.natureType || [],
@@ -84,23 +94,26 @@ function Characters() {
                         gender: char.personal?.sex || "N/A",
                         titles: char.personal?.titles || [],
                         clan: char.personal?.clan || "Unknown Clan",
-                        status: char.personal?.status || "N/A"
+                        status: char.personal?.status || "N/A",
                     },
                     voiceActors: {
                         japanese: char.voiceActors?.japanese || [],
-                        english: char.voiceActors?.english || []
-                    }
+                        english: char.voiceActors?.english || [],
+                    },
                 }));
 
                 setData({
                     pageNumber: currentPage,
                     characters: processedCharacters,
                     pageSize,
-                    total
+                    total,
                 });
             } catch (error) {
                 if (!axios.isCancel(error)) {
-                    const message = error instanceof Error ? error.message : "Failed to fetch characters";
+                    const message =
+                        error instanceof Error
+                            ? error.message
+                            : "Failed to fetch characters";
                     setError(message);
                     setData(null);
                 }
@@ -169,11 +182,13 @@ function Characters() {
         <div className="min-vh-100">
             <div className="container py-5">
                 <h1
-                    className="text-center mb-5 display-1" style={{
-                    textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-                    fontFamily: '"Knewave", sans-serif',
-                    color: '#FFAC33'
-                }}>
+                    className="text-center mb-5 display-1"
+                    style={{
+                        textShadow: "2px 2px 4px rgba(0,0,0,0.5)",
+                        fontFamily: '"Knewave", sans-serif',
+                        color: "#FFAC33",
+                    }}
+                >
                     CHARACTERS
                 </h1>
 
@@ -183,19 +198,24 @@ function Characters() {
                             <div
                                 className="card h-100"
                                 onClick={() => handleCardClick(character)}
-                                style={{cursor: 'pointer'}}
+                                style={{ cursor: "pointer" }}
                                 role="button"
                             >
                                 <div
                                     className="card-image position-relative overflow-hidden"
-                                    style={{paddingTop: '100%'}}>
+                                    style={{ paddingTop: "100%" }}
+                                >
                                     <img
-                                        src={character.images?.[0] || 'https://placehold.co/400x600?text=No+Image'}
+                                        src={
+                                            character.images?.[0] ||
+                                            "https://placehold.co/400x600?text=No+Image"
+                                        }
                                         alt={character.name}
                                         className="position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
                                         loading="lazy"
                                         onError={(e) => {
-                                            (e.target as HTMLImageElement).src = 'https://placehold.co/400x600?text=Image+Error';
+                                            (e.target as HTMLImageElement).src =
+                                                "https://placehold.co/400x600?text=Image+Error";
                                         }}
                                     />
                                     <div className="badge-overlay position-absolute top-0 end-0 m-2">
@@ -205,7 +225,9 @@ function Characters() {
                                     </div>
                                 </div>
                                 <div className="card-body text-center">
-                                    <h5 className="card-title text-nowrap m-0 p-0 fw-bold">{character.name}</h5>
+                                    <h5 className="card-title text-nowrap m-0 p-0 fw-bold">
+                                        {character.name}
+                                    </h5>
                                 </div>
                             </div>
                         </div>
@@ -217,10 +239,10 @@ function Characters() {
                     <nav aria-label="Character navigation">
                         <ul className="pagination justify-content-center">
                             {/* Previous Button */}
-                            <li className={`page-item ${page === 1 && 'disabled'}`}>
+                            <li className={`page-item ${page === 1 && "disabled"}`}>
                                 <button
                                     className="page-link"
-                                    onClick={() => setPage(p => p - 1)}
+                                    onClick={() => setPage((p) => p - 1)}
                                 >
                                     <i className="bi bi-chevron-left"></i>Previous
                                 </button>
@@ -229,10 +251,7 @@ function Characters() {
                             {/* First Page */}
                             {page > 3 && (
                                 <li className="page-item">
-                                    <button
-                                        className="page-link"
-                                        onClick={() => setPage(1)}
-                                    >
+                                    <button className="page-link" onClick={() => setPage(1)}>
                                         1
                                     </button>
                                 </li>
@@ -252,7 +271,7 @@ function Characters() {
                                     return (
                                         <li
                                             key={pageNum}
-                                            className={`page-item ${page === pageNum && 'active'}`}
+                                            className={`page-item ${page === pageNum && "active"}`}
                                         >
                                             <button
                                                 className="page-link"
@@ -286,10 +305,10 @@ function Characters() {
                             )}
 
                             {/* Next Button */}
-                            <li className={`page-item ${page === totalPages && 'disabled'}`}>
+                            <li className={`page-item ${page === totalPages && "disabled"}`}>
                                 <button
                                     className="page-link"
-                                    onClick={() => setPage(p => p + 1)}
+                                    onClick={() => setPage((p) => p + 1)}
                                 >
                                     <i className="bi bi-chevron-right"></i>Next
                                 </button>
@@ -299,7 +318,10 @@ function Characters() {
                 </div>
 
                 {modalVisible && selectedCharacter && (
-                    <div className="modal show d-block bg-dark bg-opacity-75" style={{zIndex: 1050}}>
+                    <div
+                        className="modal show d-block bg-dark bg-opacity-75"
+                        style={{ zIndex: 1050 }}
+                    >
                         <div className="modal-dialog modal-lg modal-dialog-centered">
                             <div className="modal-content w-100 mx-auto">
                                 <div className="modal-header">
@@ -320,12 +342,13 @@ function Characters() {
                                                     alt={`${selectedCharacter.name} - Image`}
                                                     className="img-fluid"
                                                     style={{
-                                                        width: '100%',  // Full width for a single image
-                                                        height: 'auto',
-                                                        objectFit: 'contain'
+                                                        width: "100%", // Full width for a single image
+                                                        height: "auto",
+                                                        objectFit: "contain",
                                                     }}
                                                     onError={(e) => {
-                                                        (e.target as HTMLImageElement).src = 'https://placehold.co/400x600?text=Image+Error';
+                                                        (e.target as HTMLImageElement).src =
+                                                            "https://placehold.co/400x600?text=Image+Error";
                                                     }}
                                                 />
                                             ) : (
@@ -333,22 +356,25 @@ function Characters() {
                                                     <img
                                                         key={index}
                                                         src={image}
-                                                        alt={`${selectedCharacter.name} - Image ${index + 1}`}
+                                                        alt={`${selectedCharacter.name} - Image ${
+                                                            index + 1
+                                                        }`}
                                                         className="img-thumbnail"
                                                         style={{
-                                                            width: '25rem',
-                                                            height: '25rem',
-                                                            objectFit: 'contain'
+                                                            width: "25rem",
+                                                            height: "25rem",
+                                                            objectFit: "contain",
                                                         }}
                                                         onError={(e) => {
-                                                            (e.target as HTMLImageElement).src = 'https://placehold.co/200x300?text=Image+Error';
+                                                            (e.target as HTMLImageElement).src =
+                                                                "https://placehold.co/200x300?text=Image+Error";
                                                         }}
                                                     />
                                                 ))
                                             )}
                                         </div>
                                     </div>
-<br/>
+                                    <br />
                                     <div className="row g-3">
                                         <div className="row">
                                             {selectedCharacter.debut.manga !== "N/A" ||
@@ -359,26 +385,29 @@ function Characters() {
                                                     <h5>Biography</h5>
                                                     {selectedCharacter.debut.manga !== "N/A" && (
                                                         <p className="p-0 m-0">
-                                                            <strong>Debut
-                                                                    Manga:</strong> {selectedCharacter.debut.manga}
+                                                            <strong>Debut Manga:</strong>{" "}
+                                                            {selectedCharacter.debut.manga}
                                                         </p>
                                                     )}
                                                     {selectedCharacter.debut.anime !== "N/A" && (
                                                         <p className="p-0 m-0">
-                                                            <strong>Debut
-                                                                    Anime:</strong> {selectedCharacter.debut.anime}
+                                                            <strong>Debut Anime:</strong>{" "}
+                                                            {selectedCharacter.debut.anime}
                                                         </p>
                                                     )}
                                                     {selectedCharacter.personalDetails.clan !== "N/A" && (
                                                         <p className="p-0 m-0">
-                                                            <strong>Clan:</strong> {selectedCharacter.personalDetails.clan}
+                                                            <strong>Clan:</strong>{" "}
+                                                            {selectedCharacter.personalDetails.clan}
                                                         </p>
                                                     )}
-                                                    {selectedCharacter.personalDetails.status !== "N/A" && (
-                                                        <p className="p-0 m-0">
-                                                            <strong>Status:</strong> {selectedCharacter.personalDetails.status}
-                                                        </p>
-                                                    )}
+                                                    {selectedCharacter.personalDetails.status !==
+                                                        "N/A" && (
+                                                            <p className="p-0 m-0">
+                                                                <strong>Status:</strong>{" "}
+                                                                {selectedCharacter.personalDetails.status}
+                                                            </p>
+                                                        )}
                                                 </div>
                                             ) : null}
 
@@ -388,12 +417,14 @@ function Characters() {
                                                     <h5>Family</h5>
                                                     {selectedCharacter.family.father !== "N/A" && (
                                                         <p className="p-0 m-0">
-                                                            <strong>Father:</strong> {selectedCharacter.family.father}
+                                                            <strong>Father:</strong>{" "}
+                                                            {selectedCharacter.family.father}
                                                         </p>
                                                     )}
                                                     {selectedCharacter.family.mother !== "N/A" && (
                                                         <p className="p-0 m-0">
-                                                            <strong>Mother:</strong> {selectedCharacter.family.mother}
+                                                            <strong>Mother:</strong>{" "}
+                                                            {selectedCharacter.family.mother}
                                                         </p>
                                                     )}
                                                 </div>
@@ -404,26 +435,38 @@ function Characters() {
                                                 <div>
                                                     <h5>Voice Actor</h5>
                                                     <ul>
-                                                        {Array.isArray(selectedCharacter.voiceActors.japanese) && selectedCharacter.voiceActors.japanese.length > 0 && (
-                                                            <li>
-                                                                <strong>Japanese:</strong>
-                                                                <ul>
-                                                                    {selectedCharacter.voiceActors.japanese.map((actor, index) => (
-                                                                        <li key={index}>{actor}</li>
-                                                                    ))}
-                                                                </ul>
-                                                            </li>
-                                                        )}
-                                                        {Array.isArray(selectedCharacter.voiceActors.english) && selectedCharacter.voiceActors.english.length > 0 && (
-                                                            <li>
-                                                                <strong>English:</strong>
-                                                                <ul>
-                                                                    {selectedCharacter.voiceActors.english.map((actor, index) => (
-                                                                        <li key={index}>{actor}</li>
-                                                                    ))}
-                                                                </ul>
-                                                            </li>
-                                                        )}
+                                                        {Array.isArray(
+                                                                selectedCharacter.voiceActors.japanese
+                                                            ) &&
+                                                            selectedCharacter.voiceActors.japanese.length >
+                                                            0 && (
+                                                                <li>
+                                                                    <strong>Japanese:</strong>
+                                                                    <ul>
+                                                                        {selectedCharacter.voiceActors.japanese.map(
+                                                                            (actor, index) => (
+                                                                                <li key={index}>{actor}</li>
+                                                                            )
+                                                                        )}
+                                                                    </ul>
+                                                                </li>
+                                                            )}
+                                                        {Array.isArray(
+                                                                selectedCharacter.voiceActors.english
+                                                            ) &&
+                                                            selectedCharacter.voiceActors.english.length >
+                                                            0 && (
+                                                                <li>
+                                                                    <strong>English:</strong>
+                                                                    <ul>
+                                                                        {selectedCharacter.voiceActors.english.map(
+                                                                            (actor, index) => (
+                                                                                <li key={index}>{actor}</li>
+                                                                            )
+                                                                        )}
+                                                                    </ul>
+                                                                </li>
+                                                            )}
                                                     </ul>
                                                 </div>
                                             )}
@@ -436,11 +479,14 @@ function Characters() {
                                                         <li>
                                                             <p className="fw-bold">Jutsu</p>
                                                             <ul>
-                                                                {selectedCharacter.jutsu.slice(0, 3).map((jutsu, index) => (
-                                                                    <li key={index}>{jutsu}</li>
-                                                                ))}
-                                                                {selectedCharacter.jutsu.length > 3 &&
-                                                                    <li>and more...</li>}
+                                                                {selectedCharacter.jutsu
+                                                                    .slice(0, 3)
+                                                                    .map((jutsu, index) => (
+                                                                        <li key={index}>{jutsu}</li>
+                                                                    ))}
+                                                                {selectedCharacter.jutsu.length > 3 && (
+                                                                    <li>and more...</li>
+                                                                )}
                                                             </ul>
                                                         </li>
                                                     )}
@@ -452,11 +498,14 @@ function Characters() {
                                                         <li>
                                                             <p className="fw-bold">Nature Types</p>
                                                             <ul>
-                                                                {selectedCharacter.natureType.slice(0, 3).map((type, index) => (
-                                                                    <li key={index}>{type}</li>
-                                                                ))}
-                                                                {selectedCharacter.natureType.length > 3 &&
-                                                                    <li>and more...</li>}
+                                                                {selectedCharacter.natureType
+                                                                    .slice(0, 3)
+                                                                    .map((type, index) => (
+                                                                        <li key={index}>{type}</li>
+                                                                    ))}
+                                                                {selectedCharacter.natureType.length > 3 && (
+                                                                    <li>and more...</li>
+                                                                )}
                                                             </ul>
                                                         </li>
                                                     )}
@@ -465,7 +514,11 @@ function Characters() {
                                     </div>
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" onClick={handleModalClose}>
+                                    <button
+                                        type="button"
+                                        className="btn btn-secondary"
+                                        onClick={handleModalClose}
+                                    >
                                         Close
                                     </button>
                                 </div>
